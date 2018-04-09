@@ -5,7 +5,7 @@ const data = {
   1: {
     name: 'Пицца',
     isLeaf: false,
-    children: [2],
+    children: [2, 4],
   },
   2: {
     name: 'Римская пицца',

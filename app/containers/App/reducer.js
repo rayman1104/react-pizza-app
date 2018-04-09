@@ -12,8 +12,7 @@ const initialState = fromJS({
   error: false,
   currentUser: false,
   userData: {
-    repositories: false,
-    menu: mockData,
+    menu: false,
   },
 });
 
@@ -23,12 +22,11 @@ function appReducer(state = initialState, action) {
       return state
         .set('loading', true)
         .set('error', false)
-        .setIn(['userData', ''], false);
+        .setIn(['userData', 'menu'], false);
     case LOAD_MENU_SUCCESS:
       return state
-        .setIn(['userData', 'repositories'], action.repos)
-        .set('loading', false)
-        .set('currentUser', action.username);
+        .setIn(['userData', 'menu'], action.menu)
+        .set('loading', false);
     case LOAD_MENU_ERROR:
       return state
         .set('error', action.error)

@@ -11,9 +11,14 @@ export function* getMenu() {
 
   try {
     // Call our request helper (see 'utils/request')
-    const fetchedMenu = yield call(request, requestURL);
-    const menu = fetchedMenu.forEach((value) => { if (!value.isLeaf) value.set('isExpanded', true); });
-    yield put(menuLoaded(fromJS(menu)));
+    let fetchedMenu = yield call(request, requestURL);
+    yield Object.keys(fetchedMenu).forEach((key) => {
+      if (!fetchedMenu[key].isLeaf) {
+        fetchedMenu[key].isExpanded = true;
+      }
+    });
+    const menu = yield fromJS(fetchedMenu);
+    yield put(menuLoaded(menu));
   } catch (err) {
     yield put(menuLoadingError(err));
   }

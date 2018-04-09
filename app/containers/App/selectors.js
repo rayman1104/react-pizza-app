@@ -6,7 +6,7 @@ const selectRoute = (state) => state.get('route');
 
 const makeSelectLoading = () => createSelector(
   selectGlobal,
-  (globalState) => globalState.get('loading')
+  (globalState) => { console.log(globalState); globalState.get('loading'); }
 );
 
 const makeSelectError = () => createSelector(

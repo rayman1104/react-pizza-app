@@ -14,7 +14,7 @@
 import React from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
 
-// import HomePage from 'containers/HomePage/Loadable';
+import MenuPage from 'containers/MenuPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 export default function App() {
