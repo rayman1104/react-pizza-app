@@ -17,7 +17,8 @@ export const EXPAND_NODE = 'react-pizza-app/App/EXPAND_NODE';
 export const COLLAPSE_NODE = 'react-pizza-app/App/COLLAPSE_NODE';
 export const ADD_CATEGORY = 'react-pizza-app/App/ADD_CATEGORY';
 export const ADD_ITEM = 'react-pizza-app/App/ADD_ITEM';
-export const EDIT_CATEGORY = 'react-pizza-app/App/EDIT_CATEGORY';
-export const EDIT_ITEM = 'react-pizza-app/App/EDIT_ITEM';
+export const EDIT_NODE_NAME = 'react-pizza-app/App/EDIT_NODE_NAME';
+export const EDIT_ITEM_FILLERS = 'react-pizza-app/App/EDIT_ITEM_FILLERS';
+export const EDIT_ITEM_PRICE = 'react-pizza-app/App/EDIT_ITEM_PRICE';
 
 export const DEFAULT_LOCALE = 'en';

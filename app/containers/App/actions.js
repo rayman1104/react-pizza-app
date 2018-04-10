@@ -6,8 +6,9 @@ import {
   COLLAPSE_NODE,
   ADD_CATEGORY,
   ADD_ITEM,
-  EDIT_CATEGORY,
-  EDIT_ITEM,
+  EDIT_NODE_NAME,
+  EDIT_ITEM_FILLERS,
+  EDIT_ITEM_PRICE,
 } from './constants';
 
 export function loadMenu() {
@@ -62,20 +63,26 @@ export function addItem(parentId, name, fillers, price) {
   };
 }
 
-export function editCategory(nodeId, name) {
+export function editNodeName(nodeId, name) {
   return {
-    type: EDIT_CATEGORY,
+    type: EDIT_NODE_NAME,
     nodeId,
     name,
   };
 }
 
-export function editItem(nodeId, name, fillers, price) {
+export function editItemFillers(nodeId, fillers) {
   return {
-    type: EDIT_ITEM,
+    type: EDIT_ITEM_FILLERS,
     nodeId,
-    name,
     fillers,
+  };
+}
+
+export function editItemPrice(nodeId, price) {
+  return {
+    type: EDIT_ITEM_PRICE,
+    nodeId,
     price,
   };
 }

@@ -9,8 +9,9 @@ import {
   COLLAPSE_NODE,
   ADD_CATEGORY,
   ADD_ITEM,
-  EDIT_CATEGORY,
-  EDIT_ITEM,
+  EDIT_NODE_NAME,
+  EDIT_ITEM_FILLERS,
+  EDIT_ITEM_PRICE,
 } from './constants';
 
 // The initial state of the App
@@ -54,13 +55,14 @@ function appReducer(state = initialState, action) {
       return state
         .setIn(['userData', 'menu', action.parentId, makeSelectMenuLength()], newNode);
     }
-    case EDIT_CATEGORY:
+    case EDIT_NODE_NAME:
       return state
         .setIn(['userData', 'menu', action.nodeId, 'name'], action.name);
-    case EDIT_ITEM:
+    case EDIT_ITEM_FILLERS:
       return state
-        .setIn(['userData', 'menu', action.nodeId, 'name'], action.name)
-        .setIn(['userData', 'menu', action.nodeId, 'fillers'], action.fillers)
+        .setIn(['userData', 'menu', action.nodeId, 'fillers'], action.fillers);
+    case EDIT_ITEM_PRICE:
+      return state
         .setIn(['userData', 'menu', action.nodeId, 'price'], action.price);
     default:
       return state;

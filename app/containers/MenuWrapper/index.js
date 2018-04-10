@@ -14,7 +14,16 @@ import { Classes, Tooltip, Tree } from '@blueprintjs/core';
 import '@blueprintjs/core/lib/css/blueprint.css';
 
 import { makeSelectMenu } from 'containers/App/selectors';
-import { collapseNode, expandNode } from 'containers/App/actions';
+import {
+  collapseNode,
+  expandNode,
+  editNodeName,
+  editItemFillers,
+  editItemPrice,
+  addItem,
+  addCategory,
+} from 'containers/App/actions';
+import NodeContent from './nodeContent';
 import Column from './Column';
 import Section from './Section';
 
@@ -83,18 +92,15 @@ class MenuWrapper extends React.PureComponent {
           />
         </Column>
         <Column flex="2">
-          { nodeId !== '0' && <div>{currNode.get('name')}</div> }
-          {
-            currNode.get('isLeaf')
-              ? <div>
-                <div>Филлеры: {currNode.get('fillers')}</div>
-                <div>Цена: {currNode.get('price')}</div>
-              </div>
-              : <div>
-                <div>Добавить категорию</div>
-                <div>Добавить блюдо</div>
-              </div>
-          }
+          <NodeContent
+            currNode={currNode}
+            nodeId={nodeId}
+            onEditName={this.props.onEditName}
+            onEditFillers={this.props.onEditFillers}
+            onEditPrice={this.props.onEditPrice}
+            onAddItem={this.props.onAddItem}
+            onAddCategory={this.props.onAddCategory}
+          />
         </Column>
       </Section>
     );
@@ -106,6 +112,11 @@ MenuWrapper.propTypes = {
   onSelect: PropTypes.func,
   onExpand: PropTypes.func,
   onCollapse: PropTypes.func,
+  onEditName: PropTypes.func,
+  onEditFillers: PropTypes.func,
+  onEditPrice: PropTypes.func,
+  onAddItem: PropTypes.func,
+  onAddCategory: PropTypes.func,
   match: PropTypes.any,
 };
 
@@ -123,6 +134,21 @@ function mapDispatchToProps(dispatch) {
     },
     onExpand: (id) => {
       dispatch(expandNode(`${id}`));
+    },
+    onEditName: (id, value) => {
+      dispatch(editNodeName(id, value));
+    },
+    onEditFillers: (id, value) => {
+      dispatch(editItemFillers(id, value));
+    },
+    onEditPrice: (id, value) => {
+      dispatch(editItemPrice(id, value));
+    },
+    onAddItem: (parentId, name, fillers, price) => {
+      dispatch(addItem(parentId, name, fillers, price));
+    },
+    onAddCategory: (parentId, name) => {
+      dispatch(addCategory(parentId, name));
     },
   };
 }
