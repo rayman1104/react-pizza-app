@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import List from 'components/List';
 import ListItem from 'components/ListItem';
 import LoadingIndicator from 'components/LoadingIndicator';
-import TreeWrapper from './TreeWrapper';
+import MenuWrapper from './index';
 
-function MenuTree({ loading, error, menu, onSelect }) {
+function Loader({ loading, error, menu, onSelect }) {
   if (loading) {
     return <List component={LoadingIndicator} />;
   }
@@ -19,9 +19,8 @@ function MenuTree({ loading, error, menu, onSelect }) {
   }
 
   if (menu !== false) {
-    console.log('===', menu);
     return (
-      <TreeWrapper
+      <MenuWrapper
         nodes={menu}
         onSelect={onSelect}
       />
@@ -31,11 +30,11 @@ function MenuTree({ loading, error, menu, onSelect }) {
   return null;
 }
 
-MenuTree.propTypes = {
+Loader.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.any,
   menu: PropTypes.any,
   onSelect: PropTypes.func,
 };
 
-export default MenuTree;
+export default Loader;

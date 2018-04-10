@@ -11,7 +11,7 @@ export function* getMenu() {
 
   try {
     // Call our request helper (see 'utils/request')
-    let fetchedMenu = yield call(request, requestURL);
+    const fetchedMenu = yield call(request, requestURL);
     yield Object.keys(fetchedMenu).forEach((key) => {
       if (!fetchedMenu[key].isLeaf) {
         fetchedMenu[key].isExpanded = true;

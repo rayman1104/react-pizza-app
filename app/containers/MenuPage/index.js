@@ -10,12 +10,11 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { push } from 'react-router-redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectLoading, makeSelectError, makeSelectMenu } from 'containers/App/selectors';
-import Menu from 'components/Menu';
+import MenuWrapper from 'containers/MenuWrapper/Loader';
 import { loadMenu } from '../App/actions';
 import makeSelectMenuPage from './selectors';
 import reducer from './reducer';
@@ -26,23 +25,20 @@ export class MenuPage extends React.PureComponent { // eslint-disable-line react
     this.props.onMount();
   }
   render() {
-    const { loading, error, menu, onSelect } = this.props;
+    const { loading, error, menu } = this.props;
     const menuTreeProps = {
       loading,
       error,
       menu,
-      onSelect,
     };
     return (
-      <div>
+      <article>
         <Helmet>
           <title>MenuPage</title>
-          <meta name="description" content="Description of MenuPage" />
+          <meta name="description" content="PizzaSushi Menu" />
         </Helmet>
-        <div>
-          <Menu {...menuTreeProps} />
-        </div>
-      </div>
+        <MenuWrapper {...menuTreeProps} />
+      </article>
     );
   }
 }
@@ -57,7 +53,6 @@ MenuPage.propTypes = {
     PropTypes.object,
     PropTypes.bool,
   ]),
-  onSelect: PropTypes.func,
   onMount: PropTypes.func,
 };
 
@@ -72,9 +67,6 @@ function mapDispatchToProps(dispatch) {
   return {
     onMount: () => {
       dispatch(loadMenu());
-    },
-    onSelect: (id) => {
-      dispatch(push(`/menu/${id}`));
     },
   };
 }

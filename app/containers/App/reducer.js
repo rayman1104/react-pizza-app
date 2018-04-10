@@ -1,9 +1,16 @@
 import { fromJS } from 'immutable';
+import { makeSelectMenuLength } from './selectors';
 
 import {
   LOAD_MENU,
   LOAD_MENU_SUCCESS,
   LOAD_MENU_ERROR,
+  EXPAND_NODE,
+  COLLAPSE_NODE,
+  ADD_CATEGORY,
+  ADD_ITEM,
+  EDIT_CATEGORY,
+  EDIT_ITEM,
 } from './constants';
 
 // The initial state of the App
@@ -31,6 +38,30 @@ function appReducer(state = initialState, action) {
       return state
         .set('error', action.error)
         .set('loading', false);
+    case EXPAND_NODE:
+      return state
+        .setIn(['userData', 'menu', action.nodeId, 'isExpanded'], true);
+    case COLLAPSE_NODE:
+      return state
+        .setIn(['userData', 'menu', action.nodeId, 'isExpanded'], false);
+    case ADD_CATEGORY: {
+      const newNode = fromJS({ name: action.name, isLeaf: false, children: [] });
+      return state
+        .setIn(['userData', 'menu', action.parentId, makeSelectMenuLength()], newNode);
+    }
+    case ADD_ITEM: {
+      const newNode = fromJS({ name: action.name, isLeaf: true, fillers: action.fillers, price: action.price });
+      return state
+        .setIn(['userData', 'menu', action.parentId, makeSelectMenuLength()], newNode);
+    }
+    case EDIT_CATEGORY:
+      return state
+        .setIn(['userData', 'menu', action.nodeId, 'name'], action.name);
+    case EDIT_ITEM:
+      return state
+        .setIn(['userData', 'menu', action.nodeId, 'name'], action.name)
+        .setIn(['userData', 'menu', action.nodeId, 'fillers'], action.fillers)
+        .setIn(['userData', 'menu', action.nodeId, 'price'], action.price);
     default:
       return state;
   }

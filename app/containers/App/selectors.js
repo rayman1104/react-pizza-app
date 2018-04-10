@@ -6,7 +6,7 @@ const selectRoute = (state) => state.get('route');
 
 const makeSelectLoading = () => createSelector(
   selectGlobal,
-  (globalState) => { console.log(globalState); globalState.get('loading'); }
+  (globalState) => globalState.get('loading')
 );
 
 const makeSelectError = () => createSelector(
@@ -19,6 +19,11 @@ const makeSelectMenu = () => createSelector(
   (globalState) => globalState.getIn(['userData', 'menu'])
 );
 
+const makeSelectMenuLength = () => createSelector(
+  [makeSelectMenu()],
+  (menu) => menu.size.toString(),
+);
+
 const makeSelectLocation = () => createSelector(
   selectRoute,
   (routeState) => routeState.get('location').toJS()
@@ -29,5 +34,6 @@ export {
   makeSelectLoading,
   makeSelectError,
   makeSelectMenu,
+  makeSelectMenuLength,
   makeSelectLocation,
 };

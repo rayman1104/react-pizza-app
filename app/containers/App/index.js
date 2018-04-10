@@ -12,20 +12,41 @@
  */
 
 import React from 'react';
+import { Helmet } from 'react-helmet';
+import styled from 'styled-components';
 import { Switch, Redirect, Route } from 'react-router-dom';
 
 import MenuPage from 'containers/MenuPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import Header from 'components/Header';
+import Footer from 'components/Footer';
+
+const AppWrapper = styled.div`
+  max-width: calc(768px + 16px * 2);
+  margin: 0 auto;
+  display: flex;
+  min-height: 100%;
+  padding: 0 16px;
+  flex-direction: column;
+`;
 
 export default function App() {
   return (
-    <div>
+    <AppWrapper>
+      <Helmet
+        titleTemplate="%s - React.js Boilerplate"
+        defaultTitle="React.js Boilerplate"
+      >
+        <meta name="description" content="A React.js Boilerplate application" />
+      </Helmet>
+      <Header />
       <Switch>
         <Redirect exact from="/" to="/menu" />
-        <Route path="/menu" component={MenuPage} />
+        <Route exact path="/menu" component={MenuPage} />
         <Route path="/menu/:id" component={MenuPage} />
         <Route component={NotFoundPage} />
       </Switch>
-    </div>
+      <Footer />
+    </AppWrapper>
   );
 }
