@@ -12,6 +12,7 @@ import { push } from 'react-router-redux';
 import { createStructuredSelector } from 'reselect';
 import { Classes, Tooltip, Tree } from '@blueprintjs/core';
 import '@blueprintjs/core/lib/css/blueprint.css';
+import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 
 import { makeSelectMenu } from 'containers/App/selectors';
 import {

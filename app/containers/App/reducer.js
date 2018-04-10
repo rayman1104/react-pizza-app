@@ -1,5 +1,4 @@
 import { fromJS } from 'immutable';
-import { makeSelectMenuLength } from './selectors';
 
 import {
   LOAD_MENU,
@@ -46,14 +45,31 @@ function appReducer(state = initialState, action) {
       return state
         .setIn(['userData', 'menu', action.nodeId, 'isExpanded'], false);
     case ADD_CATEGORY: {
-      const newNode = fromJS({ name: action.name, isLeaf: false, children: [] });
+      const newId = state.getIn(['userData', 'menu']).size.toString();
+      const newNode = fromJS({
+        name: action.name,
+        isLeaf: false,
+        isExpanded: true,
+        children: [],
+      });
+      console.log(newId, newNode);
+      const newChildren = state.getIn(['userData', 'menu', action.parentId, 'children']).push(newId);
       return state
-        .setIn(['userData', 'menu', action.parentId, makeSelectMenuLength()], newNode);
+        .setIn(['userData', 'menu', action.parentId, 'children'], newChildren)
+        .setIn(['userData', 'menu', newId], newNode);
     }
     case ADD_ITEM: {
-      const newNode = fromJS({ name: action.name, isLeaf: true, fillers: action.fillers, price: action.price });
+      const newId = state.getIn(['userData', 'menu']).size.toString();
+      const newNode = fromJS({
+        name: action.name,
+        isLeaf: true,
+        fillers: action.fillers,
+        price: action.price,
+      });
+      const newChildren = state.getIn(['userData', 'menu', action.parentId, 'children']).push(newId);
       return state
-        .setIn(['userData', 'menu', action.parentId, makeSelectMenuLength()], newNode);
+        .setIn(['userData', 'menu', action.parentId, 'children'], newChildren)
+        .setIn(['userData', 'menu', newId], newNode);
     }
     case EDIT_NODE_NAME:
       return state

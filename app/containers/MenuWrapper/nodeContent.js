@@ -2,9 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { EditableText } from '@blueprintjs/core';
 
+import Column from './Column';
+import Section from './Section';
+import Div from './Div';
+
 class NodeContent extends React.PureComponent {
   static getDerivedStateFromProps(nextProps) {
-    return { name: nextProps.currNode.get('name') };
+    return {
+      name: nextProps.currNode.get('name'),
+      fillers: nextProps.currNode.get('fillers'),
+      price: nextProps.currNode.get('price'),
+      categoryName: '',
+      itemName: '',
+      itemFillers: '',
+      itemPrice: '',
+    };
   }
 
   constructor(props) {
@@ -13,45 +25,146 @@ class NodeContent extends React.PureComponent {
     this.state = {
       nodeId: props.nodeId,
       name: props.currNode.get('name'),
+      fillers: props.currNode.get('fillers'),
+      price: props.currNode.get('price'),
+      categoryName: '',
+      itemName: '',
+      itemFillers: '',
+      itemPrice: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handleSubmitCategory = this.handleSubmitCategory.bind(this);
+    this.handleSubmitItem = this.handleSubmitItem.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  handleChange(value) {
-    this.setState({ name: value });
+  handleChange(attr) {
+    return (value) => {
+      this.setState({ [attr]: value });
+    };
   }
 
-  handleCancel() {
-    this.setState({ name: this.props.currNode.get('name') });
+  handleCancel(attr) {
+    return () => {
+      this.setState({ [attr]: this.props.currNode.get(attr) });
+    };
+  }
+
+  handleInputChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  handleSubmitCategory(event) {
+    event.preventDefault();
+    console.log(this.state.categoryName);
+    this.props.onAddCategory(this.props.nodeId, this.state.categoryName);
+  }
+
+  handleSubmitItem(event) {
+    event.preventDefault();
+    this.props.onAddItem(this.props.nodeId, this.state.itemName, this.state.itemFillers, this.state.itemPrice);
   }
 
   render() {
     const currNode = this.props.currNode;
     const nodeId = this.props.nodeId;
+    const maxLength = '20';
+
     return (
       <div>
         {nodeId !== '0' && (
           <h1>
             <EditableText
               value={this.state.name}
-              maxLength="50"
+              maxLength={maxLength}
               onConfirm={(value) => this.props.onEditName(nodeId, value)}
-              onChange={this.handleChange}
-              onCancel={this.handleCancel}
+              onChange={this.handleChange('name')}
+              onCancel={this.handleCancel('name')}
             />
           </h1>
         )}
         {
           currNode.get('isLeaf')
-            ? <div>
-              <div>Филлеры: { currNode.get('fillers') }</div>
-              <div>Цена: { currNode.get('price') }</div>
-            </div>
-            : <div>
-              <div>Добавить категорию</div>
-              <div>Добавить блюдо</div>
-            </div>
+            ? <section>
+              <Div>
+                <h4>Филлеры</h4>
+                <EditableText
+                  value={this.state.fillers}
+                  maxLength={maxLength}
+                  onConfirm={(value) => this.props.onEditFillers(nodeId, value)}
+                  onChange={this.handleChange('fillers')}
+                  onCancel={this.handleCancel('fillers')}
+                />
+              </Div>
+              <Div>
+                <h4>Цена</h4>
+                <EditableText
+                  value={this.state.price}
+                  maxLength={maxLength}
+                  onConfirm={(value) => this.props.onEditPrice(nodeId, value)}
+                  onChange={this.handleChange('price')}
+                  onCancel={this.handleCancel('price')}
+                />
+              </Div>
+            </section>
+            : <Section>
+              <Column flex="1">
+                <form onSubmit={this.handleSubmitCategory}>
+                  <Div>
+                    <input
+                      name="categoryName"
+                      className="pt-input"
+                      onChange={this.handleInputChange}
+                      value={this.state.categoryName}
+                      placeholder="Название категории"
+                      required
+                    />
+                  </Div>
+                  <button type="submit" className="pt-button pt-icon-add pt-intent-primary">
+                    Добавить категорию
+                  </button>
+                </form>
+              </Column>
+              <Column flex="1">
+                <form onSubmit={this.handleSubmitItem}>
+                  <Div>
+                    <input
+                      name="itemName"
+                      className="pt-input"
+                      onChange={this.handleInputChange}
+                      value={this.state.itemName}
+                      placeholder="Название блюда"
+                      required
+                    />
+                  </Div>
+                  <Div>
+                    <input
+                      name="itemFillers"
+                      className="pt-input"
+                      onChange={this.handleInputChange}
+                      value={this.state.itemFillers}
+                      placeholder="Филлеры"
+                      required
+                    />
+                  </Div>
+                  <Div>
+                    <input
+                      name="itemPrice"
+                      type="number"
+                      className="pt-input"
+                      onChange={this.handleInputChange}
+                      value={this.state.itemPrice}
+                      placeholder="Цена"
+                      required
+                    />
+                  </Div>
+                  <button type="submit" className="pt-button pt-icon-add pt-intent-primary">
+                    Добавить блюдо
+                  </button>
+                </form>
+              </Column>
+            </Section>
         }
       </div>
     );
@@ -62,6 +175,10 @@ NodeContent.propTypes = {
   currNode: PropTypes.any,
   nodeId: PropTypes.string,
   onEditName: PropTypes.func,
+  onEditFillers: PropTypes.func,
+  onEditPrice: PropTypes.func,
+  onAddItem: PropTypes.func,
+  onAddCategory: PropTypes.func,
 };
 
 export default NodeContent;
