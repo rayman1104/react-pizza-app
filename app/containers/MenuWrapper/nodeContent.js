@@ -88,7 +88,7 @@ class NodeContent extends React.PureComponent {
           currNode.get('isLeaf')
             ? <section>
               <Div>
-                <h4>Филлеры</h4>
+                <h4>Fillers</h4>
                 <EditableText
                   value={this.state.fillers}
                   maxLength={maxLength}
@@ -98,7 +98,7 @@ class NodeContent extends React.PureComponent {
                 />
               </Div>
               <Div>
-                <h4>Цена</h4>
+                <h4>Price</h4>
                 <EditableText
                   value={this.state.price}
                   maxLength={maxLength}
@@ -117,12 +117,12 @@ class NodeContent extends React.PureComponent {
                       className="pt-input"
                       onChange={this.handleInputChange}
                       value={this.state.categoryName}
-                      placeholder="Название категории"
+                      placeholder="Dishtype name"
                       required
                     />
                   </Div>
                   <button type="submit" className="pt-button pt-icon-add pt-intent-primary">
-                    Добавить категорию
+                    Add dishtype
                   </button>
                 </form>
               </Column>
@@ -134,7 +134,7 @@ class NodeContent extends React.PureComponent {
                       className="pt-input"
                       onChange={this.handleInputChange}
                       value={this.state.itemName}
-                      placeholder="Название блюда"
+                      placeholder="Dish name"
                       required
                     />
                   </Div>
@@ -144,7 +144,7 @@ class NodeContent extends React.PureComponent {
                       className="pt-input"
                       onChange={this.handleInputChange}
                       value={this.state.itemFillers}
-                      placeholder="Филлеры"
+                      placeholder="Fillers"
                       required
                     />
                   </Div>
@@ -155,12 +155,12 @@ class NodeContent extends React.PureComponent {
                       className="pt-input"
                       onChange={this.handleInputChange}
                       value={this.state.itemPrice}
-                      placeholder="Цена"
+                      placeholder="Price"
                       required
                     />
                   </Div>
                   <button type="submit" className="pt-button pt-icon-add pt-intent-primary">
-                    Добавить блюдо
+                    Add dish
                   </button>
                 </form>
               </Column>

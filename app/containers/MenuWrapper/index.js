@@ -43,7 +43,7 @@ class MenuWrapper extends React.PureComponent {
       return node.get('children').toJS().map(this.convertTree);
     }
     if (node.get('isLeaf')) {
-      const description = `Филлеры: ${node.get('fillers')}. Цена: ${node.get('price')}`;
+      const description = `Fillers: ${node.get('fillers')}. Price: ${node.get('price')}`;
       return {
         id: nodeId,
         icon: 'tag',
